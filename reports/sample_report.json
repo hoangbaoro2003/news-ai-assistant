@@ -1,0 +1,65 @@
+{
+  "keywords": [
+    "trí tuệ nhân tạo",
+    "Gemini 2.5 Pro",
+    "smartphone AI",
+    "bảo mật deepfake",
+    "startup Việt Nam",
+    "chuyển đổi số",
+    "chip bán dẫn",
+    "5G phủ sóng",
+    "blockchain",
+    "LLM mã nguồn mở"
+  ],
+  "executive_summary": "Tuần từ 15/04 đến 22/04/2025, lĩnh vực công nghệ ghi nhận làn sóng đột phá từ các mô hình AI thế hệ mới. Google chính thức ra mắt Gemini 2.5 Pro với khả năng xử lý ngữ cảnh 1 triệu token, trong khi Meta phát hành Llama 4 mã nguồn mở vượt qua GPT-4o trên nhiều benchmark. Tại Việt Nam, Bộ KH&CN công bố nền tảng AI quốc gia VN-AI và Cục An toàn thông tin cảnh báo làn sóng lừa đảo deepfake nhắm vào doanh nghiệp. Thị trường smartphone chứng kiến cạnh tranh khốc liệt khi Samsung và Apple đồng loạt tích hợp tính năng AI tạo sinh vào dòng flagship. Startup công nghệ Việt Nam tiếp tục thu hút dòng vốn ngoại với tổng giá trị huy động vượt 50 triệu USD trong tuần.",
+  "highlights": [
+    {
+      "rank": 1,
+      "title": "Google ra mắt Gemini 2.5 Pro – mô hình AI mạnh nhất từ trước đến nay",
+      "summary": "Google chính thức phát hành Gemini 2.5 Pro với khả năng xử lý lên tới 1 triệu token trong một ngữ cảnh, vượt trội GPT-4o và Claude 3.5 trên các benchmark lập trình và toán học. Mô hình được tích hợp ngay vào Google Search và Workspace.",
+      "source": "VnExpress",
+      "source_url": "https://vnexpress.net/google-gemini-2-5-pro-4740123.html",
+      "published_at": "2025-04-20"
+    },
+    {
+      "rank": 2,
+      "title": "Việt Nam ra mắt nền tảng AI quốc gia VN-AI 50 tỷ tham số",
+      "summary": "Bộ Khoa học và Công nghệ công bố VN-AI – mô hình ngôn ngữ lớn huấn luyện hoàn toàn trên dữ liệu tiếng Việt với 50 tỷ tham số. Nền tảng sẽ thử nghiệm tại 10 bộ ngành trong quý 2/2025, hướng tới tự chủ công nghệ AI.",
+      "source": "TuoiTre",
+      "source_url": "https://tuoitre.vn/viet-nam-ra-mat-nen-tang-ai-quoc-gia-2025041918230456.htm",
+      "published_at": "2025-04-19"
+    },
+    {
+      "rank": 3,
+      "title": "Cảnh báo: Deepfake AI gây thiệt hại hơn 10 tỷ đồng cho doanh nghiệp Việt",
+      "summary": "Cục An toàn thông tin phát cảnh báo khẩn về làn sóng tấn công deepfake giả mạo CEO và CFO để yêu cầu chuyển tiền. Ít nhất 15 doanh nghiệp tại TP.HCM và Hà Nội đã trở thành nạn nhân trong 7 ngày qua.",
+      "source": "ThanhNien",
+      "source_url": "https://thanhnien.vn/deepfake-ai-lua-dao-doanh-nghiep-viet-18524041800.htm",
+      "published_at": "2025-04-18"
+    },
+    {
+      "rank": 4,
+      "title": "Meta phát hành Llama 4 – mô hình mã nguồn mở 2 nghìn tỷ tham số",
+      "summary": "Meta ra mắt Llama 4 Behemoth với 2 nghìn tỷ tham số, là mô hình mã nguồn mở lớn nhất lịch sử. Phiên bản Scout (17B) và Maverick (400B) cũng được phát hành đồng thời, cho phép cộng đồng developer tự triển khai hoàn toàn miễn phí.",
+      "source": "VnExpress",
+      "source_url": "https://vnexpress.net/meta-llama-4-mo-nguon-mo-4738900.html",
+      "published_at": "2025-04-17"
+    },
+    {
+      "rank": 5,
+      "title": "Apple tích hợp AI tạo sinh vào iOS 19, lần đầu hỗ trợ tiếng Việt",
+      "summary": "Apple xác nhận iOS 19 sẽ mang Apple Intelligence đến người dùng tiếng Việt lần đầu tiên. Các tính năng viết lại, tóm tắt văn bản và trợ lý Siri thế hệ mới sẽ có mặt trên iPhone 16 series và các dòng Mac chip Apple Silicon.",
+      "source": "ThanhNien",
+      "source_url": "https://thanhnien.vn/apple-ios-19-ho-tro-tieng-viet-185240419.htm",
+      "published_at": "2025-04-19"
+    },
+    {
+      "rank": 6,
+      "title": "Startup AI y tế KAI Technology huy động 30 triệu USD Series B",
+      "summary": "KAI Technology, startup chuyên AI chẩn đoán hình ảnh y tế, hoàn thành vòng Series B với 30 triệu USD từ Vertex Ventures SEA. Vốn sẽ được dùng để mở rộng sang Thái Lan, Indonesia và phát triển thêm mô hình AI đọc kết quả X-quang.",
+      "source": "TuoiTre",
+      "source_url": "https://tuoitre.vn/startup-kai-technology-30-trieu-usd-2025041612300.htm",
+      "published_at": "2025-04-16"
+    }
+  ]
+}
