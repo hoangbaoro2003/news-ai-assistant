@@ -1,0 +1,22 @@
+# ── Data Collection ──────────────────────────────────────────────────────────
+feedparser        # RSS feed parser
+httpx              # async-capable HTTP client for scraping
+beautifulsoup4      # HTML parsing
+lxml                # fast HTML/XML parser (bs4 backend)
+
+# ── NLP / ML ─────────────────────────────────────────────────────────────────
+scikit-learn
+sentence-transformers   # multilingual sentence embeddings (free, local)
+faiss-cpu               # vector similarity search (CPU version)
+numpy
+
+# ── LLM ──────────────────────────────────────────────────────────────────────
+langchain-google-genai
+langchain-core
+python-dotenv        # load .env file for API keys
+
+# ── Web UI ────────────────────────────────────────────────────────────────────
+streamlit
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest
