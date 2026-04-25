@@ -99,24 +99,24 @@ class TestCrawler:
 
 class TestKeyword:
     def test_extract_keywords_returns_list(self):
-        from app.keyword import extract_keywords
+        from app.kw_extractor import extract_keywords
         arts = make_articles(5)
         kws = extract_keywords(arts, llm=None)
         assert isinstance(kws, list) and len(kws) > 0
 
     def test_extract_keywords_respects_top_n(self):
-        from app.keyword import extract_keywords
+        from app.kw_extractor import extract_keywords
         arts = make_articles(8)
         kws = extract_keywords(arts, llm=None, top_n=5)
         assert len(kws) <= 5
 
     def test_extract_keywords_empty_articles(self):
-        from app.keyword import extract_keywords
+        from app.kw_extractor import extract_keywords
         kws = extract_keywords([], llm=None)
         assert isinstance(kws, list) and len(kws) > 0  # returns defaults
 
     def test_tfidf_candidates(self):
-        from app.keyword import _tfidf_candidates
+        from app.kw_extractor import _tfidf_candidates
         arts = make_articles(5)
         cands = _tfidf_candidates(arts, top_n=20)
         assert isinstance(cands, list) and len(cands) > 0
