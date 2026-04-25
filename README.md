@@ -6,24 +6,34 @@ An end-to-end **AI-powered news intelligence system** that automatically collect
 
 ---
 
-## ✨ Live Demo Preview
+## ✨ Live Demo Results (Actual Run – April 25, 2026)
 
-| Web UI (Streamlit) | CLI Output |
-|---|---|
-| Nhập API key → Click → Xem báo cáo ngay trên browser | Chạy ngầm → Xuất file `.md` + `.json` |
+| Metric | Result |
+|--------|--------|
+| 📰 Articles fetched | **74 bài** từ VnExpress, Thanh Niên, Tuổi Trẻ |
+| 📄 Articles used for summary | **12 bài** (MMR selected) |
+| 🔑 Keywords extracted | **10 từ khóa** trending |
+| ⏱️ Processing time | **~40 giây** end-to-end |
 
+### Trending Keywords (actual output)
+`#công nghệ` `#google` `#iphone` `#trung tâm` `#camera` `#ultra` `#khả năng` `#chip` `#hiện` `#máy`
+
+### Highlighted News (actual output)
 ```
-🔥 Trending Keywords
-#trí tuệ nhân tạo  #Gemini 2.5 Pro  #smartphone AI  #deepfake  #startup Việt Nam
+[1] TP HCM hút 1,23 tỷ USD đầu tư vào AI, y sinh, pin thông minh
+    → https://vnexpress.net/tp-hcm-hut-1-23-ty-usd-dau-tu-vao-ai...
 
-📋 Executive Summary
-Tuần từ 15/04 đến 22/04/2026, lĩnh vực công nghệ ghi nhận làn sóng
-đột phá từ các mô hình AI thế hệ mới. Google ra mắt Gemini 2.5 Pro...
+[2] Vingroup phát triển ngôn ngữ LLM trong chiến lược AI
+    → https://vnexpress.net/vingroup-phat-trien-ngon-ngu-llm...
 
-📰 Highlighted News
-[1] Google ra mắt Gemini 2.5 Pro – mô hình AI mạnh nhất từ trước đến nay
-    Google chính thức phát hành Gemini 2.5 Pro với 1M token context...
-    🔗 https://vnexpress.net/...
+[3] Mô hình iPhone gập so dáng cùng thiết bị Apple
+    → https://vnexpress.net/...
+
+[4] Claude Mythos - 'siêu hacker' khiến Anthropic chưa dám thương mại hóa
+    → https://vnexpress.net/claude-mythos-sieu-hacker...
+
+[5] 'Năng lực bảo vệ chưa theo kịp nhận thức an toàn dữ liệu'
+[6] Trí tuệ nhân tạo 'vận hành ngược' tại các nhà máy AI
 ```
 
 ---
@@ -37,25 +47,25 @@ Tuần từ 15/04 đến 22/04/2026, lĩnh vực công nghệ ghi nhận làn s�
 │  ┌──────────┐   ┌──────────────┐   ┌──────────────────────┐    │
 │  │ CRAWLER  │──▶│   INDEXER    │──▶│      KEYWORD         │    │
 │  │          │   │              │   │                      │    │
-│  │ feedparser│   │sentence-    │   │ Stage 1: TF-IDF      │    │
+│  │feedparser│   │sentence-     │   │ Stage 1: TF-IDF      │    │
 │  │ httpx    │   │transformers  │   │ Stage 2: FAISS MMR   │    │
-│  │ bs4      │   │ + FAISS      │   │ Stage 3: LLM Refine  │    │
+│  │   bs4    │   │ + FAISS      │   │ Stage 3: LLM Refine  │    │
 │  │          │   │ IndexFlatIP  │   │                      │    │
 │  │VnExpress │   │              │   └──────────┬───────────┘    │
 │  │ThanhNien │   │  MMR select  │              │                 │
-│  │TuoiTre   │   │  top-K       │              ▼                 │
+│  │ TuoiTre  │   │   top-K      │              ▼                 │
 │  └──────────┘   └──────────────┘   ┌──────────────────────┐    │
 │        │                           │     SUMMARIZER       │    │
 │        ▼                           │                      │    │
-│  data/raw_articles.json            │  Gemini 1.5 Flash    │    │
+│  data/raw_articles.json            │  Gemini 2.0 Flash    │    │
 │                                    │  (LangChain)         │    │
-│                                    │  + extractive fallback│   │
+│                                    │ + extractive fallback│    │
 │                                    └──────────┬───────────┘    │
 │                                               │                 │
 │                              ┌────────────────┴──────────┐     │
 │                              │         OUTPUT             │     │
-│                              │  CLI: .md + .json files   │     │
-│                              │  UI : Streamlit browser   │     │
+│                              │  CLI → .md + .json files  │     │
+│                              │  UI  → Streamlit browser  │     │
 │                              └───────────────────────────┘     │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -66,8 +76,8 @@ Tuần từ 15/04 đến 22/04/2026, lĩnh vực công nghệ ghi nhận làn s�
 |---|--------|-----------|-------------|
 | 1 | `crawler.py` | feedparser + httpx + BeautifulSoup | Parse RSS, filter 7 days, scrape body, deduplicate |
 | 2 | `indexer.py` | sentence-transformers + FAISS | Embed articles → MMR retrieval for top-K diverse articles |
-| 3 | `keyword.py` | scikit-learn + FAISS + Gemini | TF-IDF → MMR ranking → LLM editorial refine |
-| 4 | `summarizer.py` | LangChain + Gemini 1.5 Flash | Executive summary + highlighted news (structured JSON) |
+| 3 | `kw_extractor.py` | scikit-learn + FAISS + Gemini | TF-IDF → MMR ranking → LLM editorial refine |
+| 4 | `summarizer.py` | LangChain + Gemini 2.0 Flash | Executive summary + highlighted news (structured JSON) |
 | 5 | `pipeline.py` | Python orchestrator | Ties all stages; used by both CLI and UI |
 
 ---
@@ -77,47 +87,45 @@ Tuần từ 15/04 đến 22/04/2026, lĩnh vực công nghệ ghi nhận làn s�
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/<your-username>/news-ai-assistant.git
+git clone https://github.com/hoangbaoro2003/news-ai-assistant.git
 cd news-ai-assistant
+
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Mac/Linux
+
 pip install -r requirements.txt
 ```
 
-### 2. Configure API key (optional but recommended)
+### 2. Configure API key
 
 ```bash
-cp .env.example .env
+copy .env.example .env
 # Mở .env và điền GEMINI_API_KEY
 # Lấy key miễn phí tại: https://aistudio.google.com/apikey
 ```
 
-> **Không có API key?** Hệ thống vẫn chạy được với Extractive Mode — pipeline đầy đủ, chỉ phần tóm tắt cuối dùng thuật toán thay vì LLM.
+> **Không có API key?** Hệ thống vẫn chạy với Extractive Mode — pipeline đầy đủ, không cần Gemini.
 
 ### 3. Run
 
-**Mode A – Interactive Web UI (recommended for demo)**
+**Mode A – Streamlit Web UI**
 ```bash
 streamlit run app/ui.py
 # → Mở trình duyệt tại http://localhost:8501
 ```
 
-**Mode B – CLI (for backend / automation)**
+**Mode B – CLI**
 ```bash
-# Extractive mode (không cần API key)
 python app/main_cli.py
-
-# Với Gemini API
+# Với Gemini API:
 python app/main_cli.py --api-key AIza...
-
-# Qua environment variable
-GEMINI_API_KEY=AIza... python app/main_cli.py
-
-# Tuỳ chỉnh
-python app/main_cli.py --days 7 --top-k 12 --output-md reports/report.md
 ```
 
 **Run tests**
 ```bash
-pytest tests/ -v
+python -m pytest tests/ -v
+# → 22 passed ✅
 ```
 
 ---
@@ -128,22 +136,24 @@ pytest tests/ -v
 news-ai-assistant/
 ├── app/
 │   ├── __init__.py
-│   ├── crawler.py       # RSS collection + scraping + topic filter
-│   ├── indexer.py       # FAISS vector index + MMR article retrieval
-│   ├── keyword.py       # TF-IDF → MMR → LLM keyword extraction
-│   ├── summarizer.py    # Gemini report generation + extractive fallback
-│   ├── pipeline.py      # Central orchestrator (used by CLI + UI)
-│   ├── main_cli.py      # CLI entry point → exports .md + .json
-│   └── ui.py            # Streamlit web interface
+│   ├── crawler.py        # RSS collection + scraping + topic filter
+│   ├── indexer.py        # FAISS vector index + MMR article retrieval
+│   ├── kw_extractor.py   # TF-IDF → MMR → LLM keyword extraction
+│   ├── summarizer.py     # Gemini report generation + extractive fallback
+│   ├── pipeline.py       # Central orchestrator (used by CLI + UI)
+│   ├── main_cli.py       # CLI entry point → exports .md + .json
+│   └── ui.py             # Streamlit web interface
 │
 ├── data/
-│   └── raw_articles.json    # Auto-saved raw crawl output (for debug)
+│   └── raw_articles.json     # Auto-saved raw crawl output
 │
 ├── reports/
-│   └── sample_report.json   # Pre-generated demo output
+│   ├── weekly_report.md      # Generated Markdown report
+│   ├── weekly_report.json    # Generated JSON report
+│   └── sample_report.json    # Pre-generated demo output
 │
 ├── tests/
-│   └── test_pipeline.py     # 18 unit + integration tests
+│   └── test_pipeline.py      # 22 unit + integration tests
 │
 ├── .env.example
 ├── requirements.txt
@@ -152,13 +162,19 @@ news-ai-assistant/
 
 ---
 
-## 🧪 Tests
+## 🧪 Test Results
 
-```bash
-pytest tests/ -v
 ```
+platform win32 -- Python 3.14.4, pytest-9.0.3
 
-18 tests covering: crawler date filtering, topic relevance, HTML cleaning, TF-IDF extraction, MMR ranking, report structure validation, Markdown rendering, pipeline smoke test with mocked network.
+22 passed, 3 warnings in 78.53s ✅
+
+TestCrawler    (9 tests)  → All PASSED
+TestKeyword    (4 tests)  → All PASSED
+TestSummarizer (5 tests)  → All PASSED
+TestIndexer    (2 tests)  → All PASSED
+TestPipeline   (2 tests)  → All PASSED
+```
 
 ---
 
@@ -167,12 +183,12 @@ pytest tests/ -v
 ```
 python app/main_cli.py [OPTIONS]
 
-  --api-key     Gemini API key (or GEMINI_API_KEY env var)
+  --api-key     Gemini API key (hoặc GEMINI_API_KEY env var)
   --days        Lookback window in days (default: 7)
   --top-k       Articles used for summarization (default: 12)
   --no-scrape   Skip body scraping for faster runs
-  --output-md   Markdown report path (default: reports/weekly_report.md)
-  --output-json JSON report path (default: reports/weekly_report.json)
+  --output-md   Markdown report path
+  --output-json JSON report path
 ```
 
 ---
@@ -181,7 +197,7 @@ python app/main_cli.py [OPTIONS]
 
 | Provider | Free Tier | How to get |
 |----------|-----------|-----------|
-| **Google Gemini** ✅ | Yes (Gemini 1.5 Flash – free) | [aistudio.google.com](https://aistudio.google.com/apikey) |
+| **Google Gemini** ✅ | Yes (Gemini 2.0 Flash) | [aistudio.google.com](https://aistudio.google.com/apikey) |
 | **None** ✅ | Always | Extractive fallback, no signup needed |
 
 ---
@@ -197,6 +213,6 @@ python app/main_cli.py [OPTIONS]
 | Embeddings | `sentence-transformers` (multilingual) | Semantic article representation |
 | Vector Search | `FAISS` (CPU, cosine) | Fast similarity retrieval |
 | Diversity | MMR algorithm | Avoids near-duplicate articles/keywords |
-| LLM | Google Gemini 1.5 Flash via `LangChain` | Executive summary generation |
+| LLM | Google Gemini 2.0 Flash via `LangChain` | Executive summary generation |
 | Web UI | `Streamlit` | Interactive browser interface |
-| Testing | `pytest` | Unit + integration coverage |
+| Testing | `pytest` (22 tests) | Unit + integration coverage |
