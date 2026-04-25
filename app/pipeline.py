@@ -58,7 +58,7 @@ def run(
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
             os.environ["GOOGLE_API_KEY"] = api_key
-            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.2)
+            llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.2)
             log("✅ Gemini API key hợp lệ – LLM đã sẵn sàng")
         except Exception as exc:
             log(f"⚠️ Không thể khởi tạo LLM ({exc}) – dùng extractive fallback")
@@ -84,7 +84,7 @@ def run(
 
     # ── Step 3: Keywords ──────────────────────────────────────────────────────
     log("3️⃣  Đang trích xuất Trending Keywords (TF-IDF → MMR → LLM refine)…")
-    from app.keyword import extract_keywords
+    from app.kw_extractor import extract_keywords
     keywords = extract_keywords(top_articles, llm=llm, top_n=10)
     log(f"   → Keywords: {', '.join(keywords[:5])}…")
 
