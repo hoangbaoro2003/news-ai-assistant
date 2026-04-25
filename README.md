@@ -6,7 +6,15 @@ An end-to-end **AI-powered news intelligence system** that automatically collect
 
 ---
 
-## ✨ Live Demo Results (Actual Run – April 25, 2026)
+## ✨ Live Demo Preview & Results
+
+Hệ thống cung cấp trải nghiệm liền mạch giữa giao diện Web và dòng lệnh:
+
+| Web UI (Streamlit) | CLI Output |
+|---|---|
+| Nhập API key → Click → Xem báo cáo ngay trên browser | Chạy ngầm → Xuất file `.md` + `.json` |
+
+### 📊 Actual Run Metrics (April 25, 2026)
 
 | Metric | Result |
 |--------|--------|
@@ -14,6 +22,8 @@ An end-to-end **AI-powered news intelligence system** that automatically collect
 | 📄 Articles used for summary | **12 bài** (MMR selected) |
 | 🔑 Keywords extracted | **10 từ khóa** trending |
 | ⏱️ Processing time | **~40 giây** end-to-end |
+
+---
 
 ### Trending Keywords (actual output)
 `#công nghệ` `#google` `#iphone` `#trung tâm` `#camera` `#ultra` `#khả năng` `#chip` `#hiện` `#máy`
@@ -40,33 +50,33 @@ An end-to-end **AI-powered news intelligence system** that automatically collect
 
 ## 🏗️ System Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
-│               AI NEWS ASSISTANT  –  PIPELINE                    │
-│                                                                  │
-│  ┌──────────┐   ┌──────────────┐   ┌──────────────────────┐    │
-│  │ CRAWLER  │──▶│   INDEXER    │──▶│      KEYWORD         │    │
-│  │          │   │              │   │                      │    │
-│  │feedparser│   │sentence-     │   │ Stage 1: TF-IDF      │    │
-│  │ httpx    │   │transformers  │   │ Stage 2: FAISS MMR   │    │
-│  │   bs4    │   │ + FAISS      │   │ Stage 3: LLM Refine  │    │
-│  │          │   │ IndexFlatIP  │   │                      │    │
-│  │VnExpress │   │              │   └──────────┬───────────┘    │
-│  │ThanhNien │   │  MMR select  │              │                 │
-│  │ TuoiTre  │   │   top-K      │              ▼                 │
-│  └──────────┘   └──────────────┘   ┌──────────────────────┐    │
-│        │                           │     SUMMARIZER       │    │
-│        ▼                           │                      │    │
-│  data/raw_articles.json            │  Gemini 2.0 Flash    │    │
-│                                    │  (LangChain)         │    │
-│                                    │ + extractive fallback│    │
-│                                    └──────────┬───────────┘    │
-│                                               │                 │
-│                              ┌────────────────┴──────────┐     │
-│                              │         OUTPUT             │     │
-│                              │  CLI → .md + .json files  │     │
-│                              │  UI  → Streamlit browser  │     │
-│                              └───────────────────────────┘     │
+│               AI NEWS ASSISTANT  –  PIPELINE                                       │
+│                                                                                    │
+│  ┌──────────┐    ┌──────────────┐    ┌──────────────────────┐       │
+│  │   CRAWLER   │──▶│      INDEXER     │──▶│      KEYWORD               │       │
+│  │             │    │                  │    │                            │       │
+│  │  feedparser │    │    sentence-     │    │   Stage 1: TF-IDF          │       │
+│  │    httpx    │    │   transformers   │    │   Stage 2: FAISS MMR       │       │
+│  │     bs4     │    │    + FAISS       │    │   Stage 3: LLM Refine      │       │
+│  │             │    │    IndexFlatIP   │    │                            │       │
+│  │  VnExpress  │    │                  │    └──────────┬───────────┘       │
+│  │  ThanhNien  │    │    MMR select    │                  │                       │
+│  │   TuoiTre   │    │      top-K       │                  ▼                      │
+│  └──────────┘    └──────────────┘    ┌──────────────────────┐       │
+│         │                                    │         SUMMARIZER         │       │
+│         ▼                                   │                            │       │
+│  data/raw_articles.json                      │       Gemini 2.0 Flash     │       │
+│                                              │         (LangChain)        │       │
+│                                              │     + extractive fallback  │       │
+│                                              └──────────┬───────────┘       │
+│                                                    │                               │
+│                              ┌────────────────┴──────────┐                 │
+│                              │              OUTPUT               │                 │
+│                              │       CLI → .md + .json files    │                 │
+│                              │       UI  → Streamlit browser    │                 │
+│                              └───────────────────────────┘                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -105,34 +115,33 @@ copy .env.example .env
 # Lấy key miễn phí tại: https://aistudio.google.com/apikey
 ```
 
-> **Không có API key?** Hệ thống vẫn chạy với Extractive Mode — pipeline đầy đủ, không cần Gemini.
+> **Không có API key?** Hệ thống vẫn tự động chuyển sang chế độ Extractive Mode — chạy pipeline đầy đủ mà không cần gọi Gemini API.
 
 ### 3. Run
 
-**Mode A – Streamlit Web UI**
+**Mode A – Streamlit Web UI (recommended for demo)**
 ```bash
 streamlit run app/ui.py
 # → Mở trình duyệt tại http://localhost:8501
 ```
 
-**Mode B – CLI**
+**Mode B – CLI (for backend / automation)**
 ```bash
+# Extractive mode (không cần API key)
 python app/main_cli.py
-# Với Gemini API:
-python app/main_cli.py --api-key AIza...
-```
 
-**Run tests**
-```bash
-python -m pytest tests/ -v
-# → 22 passed ✅
+# Với Gemini API trực tiếp
+python app/main_cli.py --api-key AIza...
+
+# Chạy với tuỳ chỉnh cấu hình
+python app/main_cli.py --days 7 --top-k 12 --output-md reports/report.md
 ```
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 news-ai-assistant/
 ├── app/
 │   ├── __init__.py
@@ -162,9 +171,16 @@ news-ai-assistant/
 
 ---
 
-## 🧪 Test Results
+## 🧪 Tests
 
+Hệ thống được bao phủ bởi 22 bài test (unit + integration) kiểm tra các chức năng: crawler date filtering, topic relevance, HTML cleaning, TF-IDF extraction, MMR ranking, report structure validation, và pipeline smoke test.
+
+```bash
+python -m pytest tests/ -v
 ```
+
+**Test Results:**
+```text
 platform win32 -- Python 3.14.4, pytest-9.0.3
 
 22 passed, 3 warnings in 78.53s ✅
@@ -180,15 +196,15 @@ TestPipeline   (2 tests)  → All PASSED
 
 ## 🌐 CLI Options
 
-```
+```text
 python app/main_cli.py [OPTIONS]
 
   --api-key     Gemini API key (hoặc GEMINI_API_KEY env var)
   --days        Lookback window in days (default: 7)
   --top-k       Articles used for summarization (default: 12)
   --no-scrape   Skip body scraping for faster runs
-  --output-md   Markdown report path
-  --output-json JSON report path
+  --output-md   Markdown report path (default: reports/weekly_report.md)
+  --output-json JSON report path (default: reports/weekly_report.json)
 ```
 
 ---
